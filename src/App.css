@@ -1,0 +1,252 @@
+/* Navbar styling */
+.navbar {
+  background: linear-gradient(to right, #141414, #1c1c1c);
+  padding: 8px 16px;
+  min-height: 60px;
+  display: flex;
+  flex-wrap: nowrap; /* ✅ prevent wrapping */
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Left-aligned logo */
+.logo-container {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 60px; /* ✅ increased gap between logo and nav links */
+}
+
+.logo-icon {
+  color: white;
+  font-size: 25px;
+  margin-right: 20px;
+}
+
+.logo-name {
+  color: white;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* Right-aligned menu bar */
+.nav-links {
+  display: flex;
+  flex-wrap: nowrap; /* prevent wrapping */
+  gap: 15px; /* ✅ reduced gap between links */
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: auto;
+  justify-content: flex-end;
+  flex: 1 1 auto;
+  min-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Each nav link */
+.nav-link {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: #f39c12;
+}
+
+/* Cart count styles */
+.nav-link.cart-link {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #f39c12;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 6px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 18px;
+  min-height: 18px;
+  line-height: 1;
+  z-index: 100;
+}
+
+/* Hover effects for cart and icons */
+.nav-link.cart-link:hover .cart-count {
+  background-color: #e64a19;
+}
+
+.command-icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.icon {
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.icon:hover {
+  color: #f39c12;
+}
+
+/* Responsive tweaks: reduce gap & font size on medium screens */
+@media (max-width: 1100px) {
+  .nav-links {
+    gap: 12px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-links {
+    gap: 10px;
+    font-size: 16px;
+  }
+}
+
+/* 📱 Full responsive (mobile) layout */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-links {
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 15px;
+  }
+
+  .logo-container {
+    margin-right: 0; /* Reset margin on small screens */
+  }
+}
+
+/* Ensuring space for last item on large screens */
+@media (min-width: 1100px) {
+  .nav-links {
+    gap: 20px;
+    font-size: 20px;
+  }
+}
+
+/* Adjusting space for the last item to avoid clipping */
+.nav-links .nav-link:last-child {
+  padding-right: 20px;
+}
+
+/* 📦 Main content styling */
+.main-content {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero {
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #666;
+}
+
+.hero button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.hero button:hover {
+  background-color: #218838;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.feature-box {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  width: 280px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.feature-box:hover {
+  transform: translateY(-5px);
+}
+
+.feature-box h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feature-box p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* 📱 Responsive features section */
+@media (max-width: 768px) {
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* ✅ Body padding to avoid cut-off content */
+body {
+  margin-top: 100px;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+

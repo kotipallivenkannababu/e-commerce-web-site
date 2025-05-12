@@ -1,0 +1,96 @@
+.veg-list {
+   list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0;
+  justify-content: center;
+}
+
+.veg-card {
+  width: 220px;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08); /* enhanced default shadow */
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+}
+
+.veg-card:hover {
+  transform: translateY(-8px); /* slightly more lift */
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18); /* deeper shadow on hover */
+  background-color: #f4fff4;
+}
+
+
+.veg-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.veg-card h3 {
+  margin: 8px 0 4px;
+  font-size: 18px;
+  color: #333;
+}
+
+.veg-card p {
+  font-size: 16px;
+  color: #555;
+  margin: 0 0 10px;
+}
+
+.veg-card button {
+  padding: 10px 16px;
+  background-color: #12cb5f;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.veg-card button:hover {
+  background-color: #27ae60;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  cursor: pointer;
+  border: 1px solid #333;
+  background-color: white;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover:not(.active-page):not(:disabled) {
+  background-color: #eee;
+}
+
+.pagination .active-page {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  border-color: #4CAF50;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,96 @@
+.milk-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+    justify-content: center;
+  }
+  
+  .milk-card {
+    width: 220px;
+    border: 1px solid #e0e0e0;
+    border-radius: 14px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #ffffff;
+  }
+  
+  .milk-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    background-color: #f0fcff;
+  }
+  
+  .milk-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+  
+  .milk-card h3 {
+    margin: 8px 0 4px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .milk-card p {
+    font-size: 16px;
+    color: #555;
+    margin: 0 0 10px;
+  }
+  
+  .milk-card button {
+    padding: 10px 16px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .milk-card button:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  .pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  cursor: pointer;
+  border: 1px solid #333;
+  background-color: white;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover:not(.active-page):not(:disabled) {
+  background-color: #eee;
+}
+
+.pagination .active-page {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  border-color: #4CAF50;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+  

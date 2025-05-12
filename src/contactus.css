@@ -1,0 +1,87 @@
+.contact-container {
+    display: flex;
+    gap: 30px;
+    background-color: #f7f7f7;
+    padding: 40px;
+    border-radius: 20px;
+    margin: 40px;
+  }
+  
+  .contact-left {
+    flex: 1;
+    background-color: #014f6d;
+    padding: 30px;
+    border-radius: 20px;
+    color: white;
+  }
+  
+  .contact-right {
+    flex: 1;
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+  }
+  
+  .title-green {
+    color: limegreen;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .icon-red {
+    color: red;
+    margin-right: 10px;
+  }
+  .icon-green {
+    color: limegreen;
+    margin-right: 10px;
+  }
+  
+  .follow-title {
+    color: limegreen;
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .social-icon {
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .social-icon:hover {
+    transform: scale(1.2);
+    color: #f39c12;
+  }
+  
+  form input,
+  form textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #014f6d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  form button:hover {
+    background-color: #026688;
+  }
+  
