@@ -1,67 +1,110 @@
+.milk-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff8e1;
+}
+
 .milk-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 0;
-    list-style: none;
-    justify-content: center;
-  }
-  
-  .milk-card {
-    width: 220px;
-    border: 1px solid #e0e0e0;
-    border-radius: 14px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-    padding: 16px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: #ffffff;
-  }
-  
-  .milk-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-    background-color: #f0fcff;
-  }
-  
-  .milk-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 12px;
-  }
-  
-  .milk-card h3 {
-    margin: 8px 0 4px;
-    font-size: 18px;
-    color: #333;
-  }
-  
-  .milk-card p {
-    font-size: 16px;
-    color: #555;
-    margin: 0 0 10px;
-  }
-  
-  .milk-card button {
-    padding: 10px 16px;
-    background-color: #3498db;
-    border: none;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .milk-card button:hover {
-    background-color: #2980b9;
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  .pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+  justify-content: center;
+}
+
+.milk-card {
+  width: 220px;
+  border: 1px solid #e2e2e2;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.07);
+  padding: 18px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+}
+
+.milk-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  background-color: #e9f7fc;
+}
+
+.milk-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.milk-card h3 {
+  margin: 10px 0 5px;
+  font-size: 18px;
+  color: #333;
+}
+
+.milk-card p {
+  font-size: 16px;
+  color: #555;
+  margin: 0 0 12px;
+}
+
+.milk-card button {
+  padding: 12px 18px;
+  background-color: #3498db;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.milk-card button:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Price Filter */
+.price-filter {
+  margin: 25px auto;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.price-filter label {
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-filter button {
+  padding: 8px 16px;
+  border: 1px solid #3498db;
+  background-color: white;
+  color: #3498db;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.price-filter button:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Pagination */
+.pagination {
   display: flex;
   justify-content: center;
   margin: 20px 0;
@@ -70,27 +113,28 @@
 }
 
 .pagination button {
-  padding: 6px 12px;
+  padding: 8px 16px;
   cursor: pointer;
-  border: 1px solid #333;
+  border: 1px solid #bbb;
   background-color: white;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .pagination button:hover:not(.active-page):not(:disabled) {
-  background-color: #eee;
+  background-color: #f0f0f0;
+  transform: scale(1.05);
 }
 
 .pagination .active-page {
-  background-color: #4CAF50;
+  background-color: #3498db;
   color: white;
   font-weight: bold;
-  border-color: #4CAF50;
+  border-color: #3498db;
 }
 
 .pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-  

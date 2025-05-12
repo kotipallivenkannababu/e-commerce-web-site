@@ -1,93 +1,133 @@
+/* VEG LIST STYLES */
 .veg-list {
-   list-style: none;
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 24px;
   padding: 0;
   justify-content: center;
 }
 
+/* VEG CARD STYLES */
 .veg-card {
-  width: 220px;
-  border: 1px solid #e0e0e0;
-  border-radius: 14px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08); /* enhanced default shadow */
+  width: 240px;
+  border: 1px solid #dcdcdc;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
   padding: 16px;
+  background-color: #ffffff;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color: #ffffff;
 }
 
 .veg-card:hover {
-  transform: translateY(-8px); /* slightly more lift */
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18); /* deeper shadow on hover */
-  background-color: #f4fff4;
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+  background-color: #f3fff8;
 }
-
 
 .veg-card img {
   width: 100%;
-  height: 150px;
+  height: 160px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 12px;
 }
 
 .veg-card h3 {
-  margin: 8px 0 4px;
-  font-size: 18px;
-  color: #333;
+  font-size: 20px;
+  color: #2c3e50;
+  margin: 10px 0 6px;
 }
 
 .veg-card p {
   font-size: 16px;
   color: #555;
-  margin: 0 0 10px;
+  margin-bottom: 10px;
 }
 
 .veg-card button {
   padding: 10px 16px;
-  background-color: #12cb5f;
-  border: none;
+  background-color: #2ecc71;
   color: white;
+  border: none;
   border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .veg-card button:hover {
   background-color: #27ae60;
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
+
+/* PRICE FILTER STYLES */
+.price-filter {
+  margin: 20px 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+.price-filter label {
+  margin: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 6px;
+}
+
+.price-filter input[type="checkbox"] {
+  accent-color: #2ecc71;
+  transform: scale(1.1);
+}
+
+.price-filter button {
+  margin-left: 15px;
+  padding: 6px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e74c3c;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.price-filter button:hover {
+  background-color: #c0392b;
+}
+
+/* PAGINATION STYLES */
 .pagination {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
+  margin: 30px 0;
   gap: 10px;
   flex-wrap: wrap;
 }
 
 .pagination button {
-  padding: 6px 12px;
+  padding: 8px 14px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 6px;
   cursor: pointer;
-  border: 1px solid #333;
-  background-color: white;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .pagination button:hover:not(.active-page):not(:disabled) {
-  background-color: #eee;
+  background-color: #f0f0f0;
 }
 
 .pagination .active-page {
-  background-color: #4CAF50;
+  background-color: #2ecc71;
   color: white;
+  border-color: #2ecc71;
   font-weight: bold;
-  border-color: #4CAF50;
 }
 
 .pagination button:disabled {

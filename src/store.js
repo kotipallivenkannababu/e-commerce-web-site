@@ -1,8 +1,8 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-
 // Products Slice
 const productsSlice = createSlice({
     name: 'products',
+    
     initialState: {
         veg: [
             { name: "Tomato", price: 50.45, image: "/vegimages/tomato.jpg", description: "Fresh, juicy red tomatoes perfect for salads, cooking, and garnishing." },
@@ -36,7 +36,7 @@ const productsSlice = createSlice({
             { name: "Chicken Lollipop", price: 320.86, image: "/nonVegimages/chickenlollipop.jpg", description: "Crispy fried chicken wings with a tangy coating, served as a snack or appetizer." },
             { name: "Chicken Manchurian", price: 100, image: "/nonVegimages/chickenmanchurian.jpg", description: "A spicy, tangy Chinese-inspired chicken dish that's a favorite." },
             { name: "Crab", price: 380.86, image: "/nonVegimages/crab.jpg", description: "Fresh, juicy crabs that are perfect for curries or a seafood feast." },
-            { name: "Chicken Pakodi", price: 1200.86, image: "/nonVegimages/chicken pakodi.jpg", description: "Crispy, fried chicken pieces with a deliciously spiced coating." },
+            { name: "Chicken Pakodi", price: 120.86, image: "/nonVegimages/chicken pakodi.jpg", description: "Crispy, fried chicken pieces with a deliciously spiced coating." },
             { name: "Chicken Biryani", price: 1200.86, image: "/nonVegimages/chickenbiryani.jpg", description: "Aromatic rice and chicken cooked with spices in the traditional style." },
             { name: "Chicken Tikka", price: 1200.86, image: "/nonVegimages/chickentikka.jpg", description: "Marinated and grilled chicken, tender and smoky with bold flavors." },
             { name: "Fish Curry", price: 280.86, image: "/nonVegimages/fishcurry.jpg", description: "Delicious, spiced fish curry perfect with steamed rice." },
@@ -69,7 +69,12 @@ const productsSlice = createSlice({
             { name: "Nutties", price: 80, image: "/chocolate/nutties.jpg", description: "Chocolate-coated nuts for a perfect crunchy treat." },
             { name: "Dark", price: 378.46, image: "/chocolate/dark.jpg", description: "Intense dark chocolate for those who love rich, bittersweet flavors." },
             { name: "Snicker", price: 172, image: "/chocolate/snicker.jpg", description: "Chocolate, caramel, peanuts, and nougat in every bite." },
-            { name: "American", price: 172, image: "/chocolate/american.jpg", description: "Smooth milk chocolate with a delicious filling." }
+            { name: "American", price: 252, image: "/chocolate/american.jpg", description: "Smooth milk chocolate with a delicious filling." },
+            { name: "Cuadro", price: 335, image: "/chocolate/cuadro.jpg",description: "A rich blend of dark and milk chocolate with crunchy roasted almonds for a bold flavor."},
+            { name: "Mindymint", price: 678, image: "/chocolate/mindymint.jpg",description: "Cool mint-infused dark chocolate that offers a refreshing and smooth taste experience."},
+            { name: "Fantastical", price: 243, image: "/chocolate/fantastical.jpg",description: "Silky milk chocolate with caramel swirls and crispy rice for a delightful crunch."},
+            { name: "Mandolin", price: 356, image: "/chocolate/mandolin.jpg",description: "Creamy hazelnut chocolate wrapped in a smooth, melt-in-your-mouth texture."},
+            { name: "Lilac", price: 465, image: "/chocolate/lilac.jpg",description: "Premium dark chocolate infused with lavender essence, perfect for a floral twist."}
         ]
     },
     reducers: {}

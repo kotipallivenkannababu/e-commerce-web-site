@@ -17,7 +17,7 @@ function PageNotFound() {
         <div>
             <h1>404 - Page Not Found</h1>
             <p>The page you are looking for does not exist...</p>
-            <img src="/images/404.JPG" alt="404 Not Found" height="50%" width="100%" />
+            <img src="/images/404.JPG" alt="404 Not Found" height="50%" width="50%" />
         </div>
     );
 }
