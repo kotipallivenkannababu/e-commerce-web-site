@@ -11,7 +11,6 @@ function NonVeg() {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
 
-  // Price range options
   const priceRanges = [
     { value: 'RS 1 to RS 50', min: 1, max: 50 },
     { value: 'RS 51 to RS 100', min: 51, max: 100 },
@@ -20,12 +19,10 @@ function NonVeg() {
     { value: 'More than RS 500', min: 501, max: Infinity }
   ];
 
-  // Get selected price ranges
   const activeRanges = priceRanges.filter(range =>
     selectedRanges.includes(range.value)
   );
 
-  // Filter products by price
   const filteredProducts = selectedRanges.length === 0
     ? nonVegProducts
     : nonVegProducts.filter(product =>
@@ -34,23 +31,20 @@ function NonVeg() {
         )
       );
 
-  // Pagination for filtered products
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
-  // Handle checkbox change
   const handleCheckboxChange = (rangeValue) => {
     if (selectedRanges.includes(rangeValue)) {
       setSelectedRanges(selectedRanges.filter(r => r !== rangeValue));
     } else {
       setSelectedRanges([...selectedRanges, rangeValue]);
     }
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1);
   };
 
-  // Render current products
   const nonVegListItems = currentProducts.map((product, index) => (
     <li key={index} className="product-card">
       <img src={product.image} alt={product.name} />
@@ -65,18 +59,20 @@ function NonVeg() {
       <h1 style={{ textAlign: 'center' }}>Non-Veg Products</h1>
 
       {/* Price Filter */}
-      <div className="price-filter" style={{ marginBottom: '20px', textAlign: 'center' }}>
-        {priceRanges.map(range => (
-          <label key={range.value} style={{ marginRight: '15px' }}>
-            <input
-              type="checkbox"
-              checked={selectedRanges.includes(range.value)}
-              onChange={() => handleCheckboxChange(range.value)}
-            />
-            {range.value}
-          </label>
-        ))}
-        <button onClick={() => setSelectedRanges([])}>
+      <div className="price-filter">
+        <div className="filter-options">
+          {priceRanges.map(range => (
+            <label key={range.value}>
+              <input
+                type="checkbox"
+                checked={selectedRanges.includes(range.value)}
+                onChange={() => handleCheckboxChange(range.value)}
+              />
+              {range.value}
+            </label>
+          ))}
+        </div>
+        <button className="clear-button" onClick={() => setSelectedRanges([])}>
           Clear All Filters
         </button>
       </div>

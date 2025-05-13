@@ -1,10 +1,20 @@
 import { useSelector } from 'react-redux';
-import'./Orders.css';
+import { useState } from 'react';
+import './Orders.css';
 
 function Orders() {
   const orders = useSelector((globalState) => globalState.orders);
+  const [expandedOrderIndices, setExpandedOrderIndices] = useState({});
+
+  const toggleOrderDetails = (index) => {
+    setExpandedOrderIndices((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
 
   let ordersListItems = null;
+
   if (orders && orders.length > 0) {
     ordersListItems = orders.map((order, index) => (
       <li key={index} className="order-card">
@@ -17,13 +27,22 @@ function Orders() {
         <h3 className="order-amount">
           <i className="fas fa-dollar-sign"></i> Final Amount: ₹{order.finalAmount}
         </h3>
-        <ul className="order-items">
-          {order.items.map((item, index1) => (
-            <li key={index1} className="order-item">
-              <i className="fas fa-check-circle"></i> {item.name} - Qty: {item.quantity} - Price: ₹{item.price}
-            </li>
-          ))}
-        </ul>
+
+        <div className="order-actions">
+          <button onClick={() => toggleOrderDetails(index)}>
+            {expandedOrderIndices[index] ? 'Hide Details' : 'Show Details'}
+          </button>
+        </div>
+
+        {expandedOrderIndices[index] && (
+          <ul className="order-items">
+            {order.items.map((item, itemIndex) => (
+              <li key={itemIndex} className="order-item">
+                {item.name} - Qty: {item.quantity} - Price: ₹{item.price}
+              </li>
+            ))}
+          </ul>
+        )}
       </li>
     ));
   }
@@ -37,7 +56,7 @@ function Orders() {
         </div>
       ) : (
         <>
-          <h2 style={{color:'crimson'}}>Order History</h2>
+          <h2 style={{ color: 'crimson' }}>Order History</h2>
           <ul className="orders-list">{ordersListItems}</ul>
         </>
       )}

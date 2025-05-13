@@ -6,25 +6,15 @@ import './Home.css';
 function Home() {
   const products = useSelector((state) => state.products);
 
-  // Interleave products across categories
-  const interleaveProducts = (productObj) => {
-    const categories = ['veg', 'nonVeg', 'milk', 'chocolate'];
-    const arrays = categories.map(cat => productObj[cat] || []);
-    const maxLength = Math.max(...arrays.map(arr => arr.length));
-
-    const interleaved = [];
-    for (let i = 0; i < maxLength; i++) {
-      for (let j = 0; j < arrays.length; j++) {
-        if (arrays[j][i]) {
-          interleaved.push(arrays[j][i]);
-        }
-      }
-    }
-    return interleaved;
-  };
+  const categories = [
+    { name: 'Vegetables', key: 'veg', image: '/images/vegetables.jpg' },
+    { name: 'Non-Veg', key: 'nonVeg', image: '/images/nonveg.jpg' },
+    { name: 'Milk Products', key: 'milk', image: '/images/milkproducts.jpg' },
+    { name: 'Chocolates', key: 'chocolate', image: '/images/chocolates.jpg' }
+  ];
 
   return (
-    <div className="container">
+    <div className="home-container">
       {/* Hero Section */}
       <div className="hero-section">
         <h1 className="main-heading">
@@ -42,6 +32,10 @@ function Home() {
           <p>Same-day delivery available in major cities.</p>
         </div>
         <div className="feature-card">
+          <h3>💯 Quality Products</h3>
+          <p>Only the best brands and freshest items.</p>
+        </div>
+        <div className="feature-card">
           <h3>🛒 Huge Selection</h3>
           <p>Thousands of products across multiple categories.</p>
         </div>
@@ -51,13 +45,13 @@ function Home() {
         </div>
       </div>
 
-      {/* Category Navigation */}
+      {/* Category Cards */}
       <h2 className="categories-heading">Shop by Category</h2>
       <div className="categories-container">
         <div className="category-card">
           <Link to="/Veg">
             <img src="/images/vegetables.jpg" alt="Vegetables" className="category-image" />
-            <h3>Vegetable</h3>
+            <h3>Vegetables</h3>
           </Link>
         </div>
         <div className="category-card">
@@ -80,31 +74,37 @@ function Home() {
         </div>
       </div>
 
-      {/* Interleaved Products */}
-      <h2 className="categories-heading">All Products</h2>
-      <div className="products-grid">
-        {interleaveProducts(products).map((product, index) => (
-          <div className="product-card" key={index}>
-            <img src={product.image} alt={product.name} className="product-image" />
-            <div className="product-info">
-              <h3>{product.name}</h3>
-              <p>{product.description}</p>
-            </div>
+      {/* Product Previews */}
+      {categories.map((category) => (
+        <div key={category.key} className="category-section">
+          <div className="category-header">
+            <h2 className="category-title" style={{color:"red"}}>{category.name}</h2>
           </div>
-        ))}
-      </div>
+          <div className="product-grid">
+            {products[category.key]?.slice(0, 10).map((item, index) => (
+              <div key={index} className="product-card">
+                <img src={item.image} alt={item.name} className="product-image" />
+                <h4 className="product-name">{item.name}</h4>
+                <p className="product-description">{item.description}</p>
+              </div>
+            ))}
+          </div>
+          
+        </div>
+      ))}
 
-      {/* Scrollable Special Offers */}
+      {/* Marquee Special Offers */}
       <h2 className="scroll-heading">Special Offers</h2>
       <div className="scroll-image-container">
-        <img src="/vegimages/onion.jpg" alt="Offer 1" className="scroll-image" />
-        <img src="/nonVegimages/fishfry.jpg" alt="Offer 2" className="scroll-image" />
-        <img src="/chocolate/ferrero.jpg" alt="Offer 3" className="scroll-image" />
-        <img src="/milk/butter.jpg" alt="Offer 4" className="scroll-image" />
-        <img src="/nonVegimages/chicken65.jpg" alt="Offer 5" className="scroll-image" />
-        <img src="/chocolate/kitkat.jpg" alt="Offer 6" className="scroll-image" />
-        <img src="/milk/icecream.jpg" alt="Offer 7" className="scroll-image" />
-        <img src="/milk/icecream.jpg" alt="Offer 7" className="scroll-image" />
+        <div className="scroll-image-marquee">
+          <img src="/vegimages/onion.jpg" alt="Offer 1" className="scroll-image" />
+          <img src="/nonVegimages/fishfry.jpg" alt="Offer 2" className="scroll-image" />
+          <img src="/chocolate/ferrero.jpg" alt="Offer 3" className="scroll-image" />
+          <img src="/milk/butter.jpg" alt="Offer 4" className="scroll-image" />
+          <img src="/nonVegimages/chicken65.jpg" alt="Offer 5" className="scroll-image" />
+          <img src="/chocolate/kitkat.jpg" alt="Offer 6" className="scroll-image" />
+          <img src="/milk/icecream.jpg" alt="Offer 7" className="scroll-image" />
+        </div>
       </div>
 
       {/* Footer */}
@@ -112,7 +112,7 @@ function Home() {
         <div className="footer-content">
           <p>&copy; {new Date().getFullYear()} <strong>myStore</strong>. All rights reserved.</p>
           <p>
-            <a href="/terms" className="footer-link">Terms of Service</a> | 
+            <a href="/terms" className="footer-link">Terms of Service</a> |
             <a href="/privacy" className="footer-link"> Privacy Policy</a>
           </p>
           <p>Designed & Developed by Kotipalli Venkanna Babu</p>

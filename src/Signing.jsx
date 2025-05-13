@@ -1,98 +1,176 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser, loginUser, logoutUser } from './store';
+import './Signing.css';
 
 function Signing() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const { user, registeredUsers } = useSelector((state) => state.user);
+
+  const [isLogin, setIsLogin] = useState(true);
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    gender: '',
+  });
   const [message, setMessage] = useState('');
 
-  const handleSignIn = (e) => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const resetForm = () => {
+    setForm({
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      phone: '',
+      gender: '',
+    });
+    setMessage('');
+  };
+
+  const handleLogin = (e) => {
     e.preventDefault();
-    if (email === 'venky' && password === 'Nani@1509') {
-      setMessage('✅ Login successful!');
+    const matchedUser = registeredUsers.find(
+      (u) => u.email === form.email && u.password === form.password
+    );
+    if (matchedUser) {
+      dispatch(loginUser(matchedUser));
+      alert('✅ Login successful!');
     } else {
-      setMessage('❌ Invalid username or password.');
+      alert('❌ Invalid email or password.');
     }
   };
 
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const { name, email, password, confirmPassword, phone, gender } = form;
+    if (password !== confirmPassword) {
+      alert('❌ Passwords do not match.');
+      return;
+    }
+    const userExists = registeredUsers.some((u) => u.email === email);
+    if (userExists) {
+      alert('❌ User already registered.');
+      return;
+    }
+    dispatch(registerUser({ name, email, password, phone, gender }));
+    alert('✅ Registered successfully! Please login.');
+    setIsLogin(true);
+    resetForm();
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    resetForm();
+    setIsLogin(true);
+  };
+
   return (
-    <div style={containerStyle}>
-      <h2 style={titleStyle}>Sign In to <span style={{ color: '#3498db' }}>MyShop</span></h2>
-      <form onSubmit={handleSignIn} style={formStyle}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={email}
-          required
-          onChange={(e) => setEmail(e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          required
-          onChange={(e) => setPassword(e.target.value)}
-          style={inputStyle}
-        />
-        <button type="submit" style={buttonStyle}>Sign In</button>
-        {message && <p style={message.includes('✅') ? successText : errorText}>{message}</p>}
-      </form>
+    <div className="container">
+      <h2 className="title">
+        {user ? 'Welcome to MyShop, ' + user.name : isLogin ? 'Sign In to' : 'Sign Up for'}{' '}
+        <span style={{ color: '#3498db' }}>MyShop</span>
+      </h2>
+
+      {!user && (
+        <form onSubmit={isLogin ? handleLogin : handleRegister} className="form">
+          {!isLogin && (
+            <>
+              <input
+                name="name"
+                placeholder="Full Name"
+                value={form.name}
+                onChange={handleChange}
+                className="input"
+                required
+              />
+              <input
+                name="phone"
+                placeholder="Phone Number"
+                value={form.phone}
+                onChange={handleChange}
+                className="input"
+                required
+              />
+              <select
+                name="gender"
+                value={form.gender}
+                onChange={handleChange}
+                className="input"
+                required
+              >
+                <option value="">Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </>
+          )}
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            className="input"
+            required
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            className="input"
+            required
+          />
+          {!isLogin && (
+            <input
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              className="input"
+              required
+            />
+          )}
+          <button type="submit" className="button">
+            {isLogin ? 'Sign In' : 'Register'}
+          </button>
+          {message && (
+            <p className={message.includes('✅') ? 'success' : 'error'}>{message}</p>
+          )}
+          <p>
+            {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
+            <span
+              className="toggle-link"
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setMessage('');
+              }}
+            >
+              {isLogin ? 'Sign Up' : 'Sign In'}
+            </span>
+          </p>
+        </form>
+      )}
+
+      {user && (
+        <div className="logout-container">
+          <button className="logout-button" onClick={handleLogout}>
+            🔓 Logout
+          </button>
+        </div>
+      )}
     </div>
   );
 }
-
-const containerStyle = {
-  padding: '60px 20px',
-  fontFamily: 'Arial, sans-serif',
-  backgroundColor: '#f2f2f2',
-  minHeight: '100vh',
-  textAlign: 'center',
-};
-
-const titleStyle = {
-  fontSize: '32px',
-  marginBottom: '20px',
-  color: '#2c3e50',
-};
-
-const formStyle = {
-  maxWidth: '400px',
-  margin: '0 auto',
-  backgroundColor: '#fff',
-  padding: '30px',
-  borderRadius: '8px',
-  boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-};
-
-const inputStyle = {
-  width: '100%',
-  padding: '12px',
-  margin: '10px 0',
-  borderRadius: '5px',
-  border: '1px solid #ccc',
-  fontSize: '16px',
-};
-
-const buttonStyle = {
-  width: '100%',
-  padding: '12px',
-  backgroundColor: '#3498db',
-  color: 'white',
-  fontSize: '16px',
-  fontWeight: 'bold',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer',
-};
-
-const successText = {
-  color: 'green',
-  marginTop: '15px',
-};
-
-const errorText = {
-  color: 'red',
-  marginTop: '15px',
-};
 
 export default Signing;

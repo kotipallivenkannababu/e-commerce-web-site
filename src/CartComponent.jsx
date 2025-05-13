@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ClearCart, OrderDetails, IncCart, DecCart, RemoveFromCart } from './store';
 import './CartComponent.css';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import emailjs from '@emailjs/browser';
 
@@ -19,7 +19,7 @@ function CartComponent() {
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
   const navigate = useNavigate();
 
-  const [paymentMethod, setPaymentMethod] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('qr');
   const [customerEmail, setCustomerEmail] = useState('');
 
   const handleCouponApply = () => {
@@ -89,7 +89,7 @@ function CartComponent() {
         name: item.name,
         price: (item.price * item.quantity).toFixed(2),
         units: item.quantity,
-        imageUrl: item.image 
+        imageUrl: item.image
       })),
       cost: {
         shipping: shipping.toFixed(2),
@@ -121,8 +121,28 @@ function CartComponent() {
     // Wait 3 seconds, then redirect
     setTimeout(() => {
       navigate("/orders");
-    }, 10000);
+    }, 5000);
   };
+
+  const [countdown, setCountdown] = useState(5);
+
+  // Countdown for empty cart redirect
+  React.useEffect(() => {
+    if (cartObjects.length === 0 && countdown > 0) {
+      const interval = setInterval(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+
+      const timeout = setTimeout(() => {
+        navigate("/Orders");
+      }, 5000);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+      };
+    }
+  }, [cartObjects.length, countdown, navigate]);
 
   return (
     <div className="cart-container">
@@ -205,13 +225,15 @@ function CartComponent() {
               <h2 className="thank-you-message">
                 ✅ Payment Successful! Redirecting to orders page...
               </h2>
+
             )}
           </div>
         </>
       ) : (
-        <div className="empty-cart">
+        <div >
           <h2>Your cart is Empty! 🛒</h2>
           <p className="thank-you-message">✅ Payment Successful! Redirecting to orders page...</p>
+           <p>➡️ Redirecting to your Orders page in {countdown} seconds...</p>
         </div>
       )}
     </div>

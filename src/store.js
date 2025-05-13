@@ -1,8 +1,33 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 // Products Slice
+const savedCart=localStorage.getItem("cart");
+const localStorageCart=savedCart ? JSON.parse(savedCart):[];
+
+const initialUserState = {
+  user: null,
+  registeredUsers: [
+    {
+      name: 'Venky',
+      email: 'venky@123',
+      password: 'Nani@1509',
+      phone: '9876543210',
+      gender: 'Male',
+    },
+    {
+      name: 'Venky',
+      email: 'nani@456',
+      password: 'Nani@1509',
+      phone: '9876543210',
+      gender: 'Male',
+    },
+  ],
+};
+
+
 const productsSlice = createSlice({
     name: 'products',
     
+
     initialState: {
         veg: [
             { name: "Tomato", price: 50.45, image: "/vegimages/tomato.jpg", description: "Fresh, juicy red tomatoes perfect for salads, cooking, and garnishing." },
@@ -83,7 +108,7 @@ const productsSlice = createSlice({
 // Cart Slice
 const cartSlice = createSlice({
     name: 'cart',
-    initialState: [],
+    initialState: localStorageCart,
     reducers: {
         AddToCart: (state, action) => {
             const item = state.find(item => item.name === action.payload.name);
@@ -135,13 +160,38 @@ const ordersSlice = createSlice({
 
 export const { OrderDetails } = ordersSlice.actions;
 
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState: initialUserState,
+  reducers: {
+    registerUser: (state, action) => {
+      state.registeredUsers.push(action.payload);
+    },
+    loginUser: (state, action) => {
+      state.user = action.payload;
+    },
+    logoutUser: (state) => {
+      state.user = null;
+    },
+  },
+});
+
+export const { registerUser, loginUser, logoutUser } = userSlice.actions;
+
 // Configure Store
 const store = configureStore({
     reducer: {
         products: productsSlice.reducer,
         cart: cartSlice.reducer,
-       orders: ordersSlice.reducer
+       orders: ordersSlice.reducer,
+       user: userSlice.reducer
     }
+});
+
+store.subscribe(()=>{
+    const state=store.getState();
+    localStorage.setItem("cart",JSON.stringify(state.cart))
 });
 
 export default store;
