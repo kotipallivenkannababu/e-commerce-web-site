@@ -13,14 +13,11 @@ function CartComponent() {
 
   const [couponCode, setCouponCode] = useState('');
   const couponCodeRef = useRef();
-
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [couponDiscountPercentage, setCouponDiscountPercentage] = useState(0);
-
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const navigate = useNavigate();
-
   const [paymentMethod, setPaymentMethod] = useState('qr');
   const [customerEmail, setCustomerEmail] = useState('');
 
@@ -62,70 +59,65 @@ function CartComponent() {
 
   const { totalPrice, discountAmount, couponDiscount, tax, shipping, finalAmount } = calculateAmounts();
 
-  const cartListItems = cartObjects.map((item, index) => (
-    <li key={index} className="cart-item">
+  const cartListItems = cartObjects.map((item) => (
+    <li key={item.id || item.name} className="cart-item">
       <img className="cart-img" src={item.image} alt={item.name} />
       <span className="item-name">{item.name}</span>
       <span className="item-price">₹{item.price}</span>
       <div className="quantity-box">
-        <button onClick={() => {dispatch(DecCart(item))
-          toast.warn('Product Quantity decrease to cart Successfully')
-        }}>-</button>
+        <button onClick={() => { dispatch(DecCart(item)); toast.warn('Product quantity decreased.'); }}>-</button>
         <span>{item.quantity}</span>
-        <button onClick={() => {dispatch(IncCart(item))
-          toast.success('Product added to cart Successfully')
-        }}>+</button>
+        <button onClick={() => { dispatch(IncCart(item)); toast.success('Product added.'); }}>+</button>
       </div>
       <span>₹{(item.price * item.quantity).toFixed(2)}</span>
       <div className="item-actions">
-        <button className="btn-remove" onClick={() => {dispatch(RemoveFromCart(item))
-           toast.error('Product Remove to cart Successfully')
-        }}>Remove</button>
+        <button className="btn-remove" onClick={() => { dispatch(RemoveFromCart(item)); toast.error('Product removed.'); }}>
+          Remove
+        </button>
       </div>
     </li>
   ));
 
   const handlePaymentSuccess = () => {
+    if (!customerEmail) {
+      toast.error('❌ Please enter your email address.');
+      return;
+    }
+
     const purchaseDateTime = new Date().toLocaleString();
-    let orderDetailsObject = {
-      orderId: 'ORD-' + new Date().getTime(),
-      purchaseDateTime: purchaseDateTime,
-      items: [...cartObjects],
-      finalAmount: finalAmount,
-    };
+    let orderId = 'ORD-' + new Date().getTime();
+
+    let itemsText = cartObjects.map(item =>
+      `${item.name} - ₹${(item.price * item.quantity).toFixed(2)} x ${item.quantity}`
+    ).join('\n');
 
     const templateParams = {
-      order_id: orderDetailsObject.orderId,
-      orders: cartObjects.map(item => ({
-        name: item.name,
-        price: (item.price * item.quantity).toFixed(2),
-        units: item.quantity,
-        imageUrl: item.image
-      })),
-      cost: {
-        shipping: shipping.toFixed(2),
-        tax: tax.toFixed(2),
-        total: finalAmount.toFixed(2)
-      },
+      order_id: orderId,
+      orders: itemsText,
+      cost: `Shipping: ₹${shipping.toFixed(2)}, Tax: ₹${tax.toFixed(2)}, Total: ₹${finalAmount.toFixed(2)}`,
       email: customerEmail
     };
 
-    console.log('✅ Purchase completed:', orderDetailsObject);
     dispatch(ClearCart());
-    dispatch(OrderDetails(orderDetailsObject));
+    dispatch(OrderDetails({
+      orderId,
+      purchaseDateTime,
+      items: [...cartObjects],
+      finalAmount,
+    }));
 
     emailjs.send(
-      'service_pkicvpe',    // Replace with your actual Service ID
-      'template_o5y3pjj',   // Replace with your actual Template ID
+      'service_pkicvpe',
+      'template_o5y3pjj',
       templateParams,
-      'gimfEfjaE6hdhlA1x'   // Replace with your Public Key
+      'gimfEfjaE6hdhlA1x'
     )
-      .then((response) => {
-        console.log('✅ Email successfully sent!', response.status, response.text);
-      })
-      .catch((error) => {
-        console.error('❌ Failed to send email:', error);
-      });
+    .then((response) => {
+      console.log('✅ Email successfully sent!', response.status, response.text);
+    })
+    .catch((error) => {
+      console.error('❌ Failed to send email:', error);
+    });
 
     setPaymentSuccessful(true);
 
@@ -134,7 +126,6 @@ function CartComponent() {
     }, 5000);
   };
 
-  // Countdown for showing the redirect message
   useEffect(() => {
     if (cartObjects.length === 0 && paymentSuccessful && countdown > 0) {
       const interval = setInterval(() => {
@@ -166,26 +157,23 @@ function CartComponent() {
           <div className="summary-section">
             <h3>💰 Total Price: ₹{totalPrice.toFixed(2)}</h3>
             <div className="discount-buttons">
-              <button onClick={() => {setDiscountPercentage(10);
-                       toast.success('🏷️ 10% Discount Applied!'); }}>🏷️ Apply 10% Discount</button>
-              <button onClick={() => {setDiscountPercentage(20);
-                      toast.success('🏷️ 20% Discount Applied!');}}>🏷️ Apply 20% Discount</button>
-              <button onClick={() => {setDiscountPercentage(30)
-                      toast.success('🏷️ 30% Discount Applied!');}}>🏷️ Apply 30% Discount</button>
+              <button onClick={() => { setDiscountPercentage(10); toast.success('🏷️ 10% Discount Applied!'); }}>🏷️ 10%</button>
+              <button onClick={() => { setDiscountPercentage(20); toast.success('🏷️ 20% Discount Applied!'); }}>🏷️ 20%</button>
+              <button onClick={() => { setDiscountPercentage(30); toast.success('🏷️ 30% Discount Applied!'); }}>🏷️ 30%</button>
             </div>
 
-            <h4> 🎉 Discount Amount: -₹{discountAmount.toFixed(2)}</h4>
+            <h4>🎉 Discount Amount: -₹{discountAmount.toFixed(2)}</h4>
             <div className="coupon-section">
               <input type="text" ref={couponCodeRef} placeholder="Enter Coupon Code" />
               <button onClick={handleCouponApply}>Apply Coupon</button>
             </div>
-            <h4> 🎟️ Coupon ({couponCode}): -₹{couponDiscount.toFixed(2)}</h4>
+            <h4>🎟️ Coupon ({couponCode}): -₹{couponDiscount.toFixed(2)}</h4>
             <h4>🧾 Tax (5%): +₹{tax.toFixed(2)}</h4>
             <h4>🚚 Shipping: +₹{shipping.toFixed(2)}</h4>
             <h3>💵 Final Amount: ₹{finalAmount.toFixed(2)}</h3>
 
             <div className="email-section">
-              <h4>📧 Enter your email to receive the order details:</h4>
+              <h4>📧 Enter your email to receive order details:</h4>
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -224,27 +212,19 @@ function CartComponent() {
               </div>
             )}
           </div>
-          <div>
-            <button onClick={() => toast("Wow so easy!")}>
-              Notify!
-            </button>
-          </div>
         </>
       ) : paymentSuccessful ? (
         <div>
-          <h2 className="thank-you-message">
-            ✅ Payment Successful! Redirecting to orders page... </h2>
-          <p style={{ textAlign: 'center' }}>➡️ Redirecting to your Orders page in {countdown} seconds...</p>
-
+          <h2 className="thank-you-message">✅ Payment Successful! Redirecting to orders page...</h2>
+          <p style={{ textAlign: 'center' }}>➡️ Redirecting in {countdown} seconds...</p>
         </div>
       ) : (
         <div>
           <h2>Your cart is Empty! 🛒</h2>
-          <p style={{ textAlign: 'center' }}>Your cart empty please add some products...</p>
+          <p style={{ textAlign: 'center' }}>Please add some products to your cart.</p>
         </div>
       )}
     </div>
-
   );
 }
 
