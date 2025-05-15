@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { registerUser } from "./store";
 import { useNavigate } from "react-router-dom";
-import "./SignupForm.css"; // Make sure this path is correct
+import "./Signup.css"; // Make sure this path is correct
 
 function SignupForm() {
   const { register, handleSubmit } = useForm();
