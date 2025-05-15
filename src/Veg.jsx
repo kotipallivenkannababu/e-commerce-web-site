@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Veg.css';
 import { AddToCart } from './store';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 function Veg() {
   const dispatch = useDispatch();
@@ -9,7 +11,7 @@ function Veg() {
 
   const [selectedRanges, setSelectedRanges] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const productsPerPage = 8;
 
   // Price range options
   const priceRanges = [
@@ -56,12 +58,17 @@ function Veg() {
       <img src={product.image} alt={product.name} />
       <h3>{product.name}</h3>
       <p>₹{product.price}</p>
-      <button onClick={() => dispatch(AddToCart(product))}>Add to Cart</button>
+      <button onClick={() => {dispatch(AddToCart(product));
+                    toast.success('Product added to cart Successfully')
+      }}>
+        Add to Cart
+        </button>
     </li>
   ));
 
   return (
     <div>
+      <ToastContainer position="top-right" autoClose={3000} />
       <h1 style={{ textAlign: 'center' }}>Veg Products</h1>
 
       {/* Price Filter */}
@@ -73,9 +80,6 @@ function Veg() {
               checked={selectedRanges.includes(range.value)}
               onChange={() => handleCheckboxChange(range.value)}
             />
-            {/* <input 
-            type='range' 
-            /> */}
             {range.value}
           </label>
         ))}
@@ -107,6 +111,11 @@ function Veg() {
 
         <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
           Next
+        </button>
+      </div>
+      <div>
+        <button onClick={()=>toast("Wow so easy!")}>
+          Notify!
         </button>
       </div>
     </div>

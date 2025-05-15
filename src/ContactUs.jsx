@@ -9,11 +9,17 @@ function ContactUs() {
   const sendEmail = (e) => {
     e.preventDefault();
 
+    const dateTimeInput = document.createElement('input');
+    dateTimeInput.type = 'hidden';
+    dateTimeInput.name = 'date_time';
+    dateTimeInput.value = new Date().toLocaleString(); // current timestamp
+    form.current.appendChild(dateTimeInput);
+
     emailjs.sendForm(
-      'service_i3t0kvh',     // 🔁 Replace with your EmailJS Service ID
-      'template_b9s5dgr',    // 🔁 Replace with your EmailJS Template ID
+      'service_i3t0kvh',
+      'template_b9s5dgr',
       form.current,
-      'gimfEfjaE6hdhlA1x'         // 🔁 Replace with your EmailJS Public Key (User ID)
+      'gimfEfjaE6hdhlA1x'
     )
     .then((result) => {
       alert('Message sent successfully!');

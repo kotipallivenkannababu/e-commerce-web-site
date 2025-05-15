@@ -1,26 +1,12 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore, createSlice, current } from "@reduxjs/toolkit";
 // Products Slice
 const savedCart=localStorage.getItem("cart");
 const localStorageCart=savedCart ? JSON.parse(savedCart):[];
 
 const initialUserState = {
   user: null,
-  registeredUsers: [
-    {
-      name: 'Venky',
-      email: 'venky@123',
-      password: 'Nani@1509',
-      phone: '9876543210',
-      gender: 'Male',
-    },
-    {
-      name: 'Venky',
-      email: 'nani@456',
-      password: 'Nani@1509',
-      phone: '9876543210',
-      gender: 'Male',
-    },
-  ],
+  registeredUsers: [],
+  userIdCounter: 1, // for assigning unique user IDs
 };
 
 
@@ -161,18 +147,34 @@ const ordersSlice = createSlice({
 export const { OrderDetails } = ordersSlice.actions;
 
 
+
 const userSlice = createSlice({
-  name: 'user',
-  initialState: initialUserState,
+  name: "users",
+  initialState: {
+    users: [],
+    isAuthenticated: false,
+    currentUser: null,
+  },
   reducers: {
     registerUser: (state, action) => {
-      state.registeredUsers.push(action.payload);
+      state.users.push(action.payload);
     },
-    loginUser: (state, action) => {
-      state.user = action.payload;
+    loginUser: (state, inputData) => {
+      const foundUser = state.users.find(
+        (user) =>
+          user.username === inputData.payload.username &&
+          user.password === inputData.payload.password
+      );
+      if (foundUser) {
+        state.isAuthenticated = true;
+        state.currentUser = foundUser;
+      } else {
+        alert("Invalid Credentials");
+      }
     },
     logoutUser: (state) => {
-      state.user = null;
+      state.isAuthenticated = false;
+      state.currentUser = null;
     },
   },
 });
@@ -185,7 +187,7 @@ const store = configureStore({
         products: productsSlice.reducer,
         cart: cartSlice.reducer,
        orders: ordersSlice.reducer,
-       user: userSlice.reducer
+       users: userSlice.reducer
     }
 });
 

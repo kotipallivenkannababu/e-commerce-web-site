@@ -2,7 +2,7 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './App.css'; // Navigation bar styles
 
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Home from './Home';
 import Veg from './Veg';
@@ -15,11 +15,17 @@ import AboutUs from './AboutUs';
 import ContactUs from './ContactUs';
 import CartComponent from './CartComponent';
 import PageNotFound from './PageNotFound';
+import SignupForm from './SignUp';
+import { logoutUser } from './store';
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const cartObject = useSelector(globalState => globalState.cart);
   const totalCartCount = cartObject.reduce((totalSum, item) => totalSum + item.quantity, 0);
+
+  const isAuthenticated = useSelector((state) => state.users.isAuthenticated);
+  const currentUser = useSelector((state) => state.users.currentUser);
+  const dispatch = useDispatch();
 
   return (
     <BrowserRouter>
@@ -41,11 +47,26 @@ function App() {
           <Link to="/nonveg" className="nav-link" onClick={() => setMenuOpen(false)}>🍗Non-Veg</Link>
           <Link to="/milk" className="nav-link" onClick={() => setMenuOpen(false)}>🥛Milk</Link>
           <Link to="/chocolate" className="nav-link" onClick={() => setMenuOpen(false)}>🍫Chocolate</Link>
-          <Link to="/signing" className="nav-link" onClick={() => setMenuOpen(false)}>🔐Sign In</Link>
-          <Link to="/cart" className="nav-link" onClick={() => setMenuOpen(false)}>🛒Cart <h4 style={{color:'red'}}>{totalCartCount}</h4></Link>
+          <Link to="/cart" className="nav-link" onClick={() => setMenuOpen(false)}>
+            🛒Cart <span style={{ color: 'red' }}>{totalCartCount}</span>
+          </Link>
           <Link to="/orders" className="nav-link" onClick={() => setMenuOpen(false)}>📦Orders</Link>
           <Link to="/aboutus" className="nav-link" onClick={() => setMenuOpen(false)}>ℹ️About Us</Link>
           <Link to="/contactus" className="nav-link" onClick={() => setMenuOpen(false)}>📞Contact Us</Link>
+
+          {/* SignIn or Logout */}
+          {isAuthenticated ? (
+            <>
+              <span className="nav-link">👋 {currentUser.username}</span>
+              <button className="nav-link logout-btn" onClick={() => dispatch(logoutUser())}>
+                🚪Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/signing" className="nav-link" onClick={() => setMenuOpen(false)}>
+              🔐Sign In
+            </Link>
+          )}
         </div>
       </nav>
 
@@ -58,6 +79,7 @@ function App() {
         <Route path="/signing" element={<Signing />} />
         <Route path="/cart" element={<CartComponent />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/signup" element={<SignupForm />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/*" element={<PageNotFound />} />

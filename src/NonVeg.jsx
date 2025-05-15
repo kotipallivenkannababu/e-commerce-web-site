@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './NonVeg.css';
 import { AddToCart } from './store';
+import { toast, ToastContainer } from 'react-toastify';
 
 function NonVeg() {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ function NonVeg() {
 
   const [selectedRanges, setSelectedRanges] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const productsPerPage = 8;
 
   const priceRanges = [
     { value: 'RS 1 to RS 50', min: 1, max: 50 },
@@ -26,10 +27,10 @@ function NonVeg() {
   const filteredProducts = selectedRanges.length === 0
     ? nonVegProducts
     : nonVegProducts.filter(product =>
-        activeRanges.some(range =>
-          product.price >= range.min && product.price <= range.max
-        )
-      );
+      activeRanges.some(range =>
+        product.price >= range.min && product.price <= range.max
+      )
+    );
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -50,12 +51,16 @@ function NonVeg() {
       <img src={product.image} alt={product.name} />
       <h3>{product.name}</h3>
       <p>₹{product.price}</p>
-      <button onClick={() => dispatch(AddToCart(product))}>Add to Cart</button>
+      <button onClick={() => {
+        dispatch(AddToCart(product))
+        toast.success('Product added to cart Successfully')
+      }}>Add to Cart</button>
     </li>
   ));
 
   return (
     <div className="nonveg-container">
+      <ToastContainer position="top-right" autoClose={3000} />
       <h1 style={{ textAlign: 'center' }}>Non-Veg Products</h1>
 
       {/* Price Filter */}
@@ -100,6 +105,11 @@ function NonVeg() {
 
         <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
           Next
+        </button>
+      </div>
+      <div>
+        <button onClick={() => toast("Wow so easy!")}>
+          Notify!
         </button>
       </div>
     </div>

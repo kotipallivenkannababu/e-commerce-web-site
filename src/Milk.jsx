@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Milk.css';
 import { AddToCart } from './store';
+import { toast, ToastContainer } from 'react-toastify';
 
 function Milk() {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ function Milk() {
 
   const [selectedRanges, setSelectedRanges] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const productsPerPage = 8;
 
   // Price range options
   const priceRanges = [
@@ -29,10 +30,10 @@ function Milk() {
   const filteredProducts = selectedRanges.length === 0
     ? milkProducts
     : milkProducts.filter(product =>
-        activeRanges.some(range =>
-          product.price >= range.min && product.price <= range.max
-        )
-      );
+      activeRanges.some(range =>
+        product.price >= range.min && product.price <= range.max
+      )
+    );
 
   // Pagination on filtered products
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -56,12 +57,16 @@ function Milk() {
       <img src={product.image} alt={product.name} />
       <h3>{product.name}</h3>
       <p>₹{product.price}</p>
-      <button onClick={() => dispatch(AddToCart(product))}>Add to Cart</button>
+      <button onClick={() => {
+        dispatch(AddToCart(product))
+        toast.success('Product added to cart Successfully')
+      }}>Add to Cart</button>
     </li>
   ));
 
   return (
     <div className="milk-container">
+       <ToastContainer position="top-right" autoClose={3000} />
       <h1 style={{ textAlign: 'center' }}>Milk Products</h1>
 
       {/* Price Filter */}
@@ -102,6 +107,11 @@ function Milk() {
 
         <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
           Next
+        </button>
+      </div>
+      <div>
+        <button onClick={() => toast("Wow so easy!")}>
+          Notify!
         </button>
       </div>
     </div>

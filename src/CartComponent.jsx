@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ClearCart, OrderDetails, IncCart, DecCart, RemoveFromCart } from './store';
 import './CartComponent.css';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import emailjs from '@emailjs/browser';
+import { toast, ToastContainer } from 'react-toastify';
 
 function CartComponent() {
   const cartObjects = useSelector((state) => state.cart);
@@ -17,6 +18,7 @@ function CartComponent() {
   const [couponDiscountPercentage, setCouponDiscountPercentage] = useState(0);
 
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
+  const [countdown, setCountdown] = useState(5);
   const navigate = useNavigate();
 
   const [paymentMethod, setPaymentMethod] = useState('qr');
@@ -29,15 +31,18 @@ function CartComponent() {
     switch (codeValue) {
       case 'NANI10':
         setCouponDiscountPercentage(10);
+        toast.success('🎉 NANI10 applied! 10% discount added.');
         break;
       case 'NANI20':
         setCouponDiscountPercentage(20);
+        toast.success('🎉 NANI20 applied! 20% discount added.');
         break;
       case 'NANI30':
         setCouponDiscountPercentage(30);
+        toast.success('🎉 NANI30 applied! 30% discount added.');
         break;
       default:
-        alert('❌ Invalid Coupon Code');
+        toast.error('❌ Invalid Coupon Code!');
         setCouponDiscountPercentage(0);
     }
     couponCodeRef.current.value = '';
@@ -63,13 +68,19 @@ function CartComponent() {
       <span className="item-name">{item.name}</span>
       <span className="item-price">₹{item.price}</span>
       <div className="quantity-box">
-        <button onClick={() => dispatch(DecCart(item))}>-</button>
+        <button onClick={() => {dispatch(DecCart(item))
+          toast.warn('Product Quantity decrease to cart Successfully')
+        }}>-</button>
         <span>{item.quantity}</span>
-        <button onClick={() => dispatch(IncCart(item))}>+</button>
+        <button onClick={() => {dispatch(IncCart(item))
+          toast.success('Product added to cart Successfully')
+        }}>+</button>
       </div>
       <span>₹{(item.price * item.quantity).toFixed(2)}</span>
       <div className="item-actions">
-        <button className="btn-remove" onClick={() => dispatch(RemoveFromCart(item))}>Remove</button>
+        <button className="btn-remove" onClick={() => {dispatch(RemoveFromCart(item))
+           toast.error('Product Remove to cart Successfully')
+        }}>Remove</button>
       </div>
     </li>
   ));
@@ -118,34 +129,24 @@ function CartComponent() {
 
     setPaymentSuccessful(true);
 
-    // Wait 3 seconds, then redirect
     setTimeout(() => {
       navigate("/orders");
     }, 5000);
   };
 
-  const [countdown, setCountdown] = useState(5);
-
-  // Countdown for empty cart redirect
-  React.useEffect(() => {
-    if (cartObjects.length === 0 && countdown > 0) {
+  // Countdown for showing the redirect message
+  useEffect(() => {
+    if (cartObjects.length === 0 && paymentSuccessful && countdown > 0) {
       const interval = setInterval(() => {
         setCountdown(prev => prev - 1);
       }, 1000);
-
-      const timeout = setTimeout(() => {
-        navigate("/Orders");
-      }, 5000);
-
-      return () => {
-        clearInterval(interval);
-        clearTimeout(timeout);
-      };
+      return () => clearInterval(interval);
     }
-  }, [cartObjects.length, countdown, navigate]);
+  }, [cartObjects.length, paymentSuccessful, countdown]);
 
   return (
     <div className="cart-container">
+      <ToastContainer position="top-right" autoClose={3000} />
       <h1 className="cart-title">🛒 Cart Summary</h1>
 
       {cartObjects.length > 0 ? (
@@ -165,9 +166,12 @@ function CartComponent() {
           <div className="summary-section">
             <h3>💰 Total Price: ₹{totalPrice.toFixed(2)}</h3>
             <div className="discount-buttons">
-              <button onClick={() => setDiscountPercentage(10)}>🏷️ Apply 10% Discount</button>
-              <button onClick={() => setDiscountPercentage(20)}>🏷️ Apply 20% Discount</button>
-              <button onClick={() => setDiscountPercentage(30)}>🏷️ Apply 30% Discount</button>
+              <button onClick={() => {setDiscountPercentage(10);
+                       toast.success('🏷️ 10% Discount Applied!'); }}>🏷️ Apply 10% Discount</button>
+              <button onClick={() => {setDiscountPercentage(20);
+                      toast.success('🏷️ 20% Discount Applied!');}}>🏷️ Apply 20% Discount</button>
+              <button onClick={() => {setDiscountPercentage(30)
+                      toast.success('🏷️ 30% Discount Applied!');}}>🏷️ Apply 30% Discount</button>
             </div>
 
             <h4> 🎉 Discount Amount: -₹{discountAmount.toFixed(2)}</h4>
@@ -180,7 +184,6 @@ function CartComponent() {
             <h4>🚚 Shipping: +₹{shipping.toFixed(2)}</h4>
             <h3>💵 Final Amount: ₹{finalAmount.toFixed(2)}</h3>
 
-            {/* Collect Email */}
             <div className="email-section">
               <h4>📧 Enter your email to receive the order details:</h4>
               <input
@@ -191,14 +194,12 @@ function CartComponent() {
               />
             </div>
 
-            {/* Payment Method */}
             <div className="payment-method">
               <h3>💳 Select Payment Method:</h3>
               <button onClick={() => setPaymentMethod('qr')}>📱 QR Code</button>
               <button onClick={() => setPaymentMethod('card')}>💳 Card</button>
             </div>
 
-            {/* Payment Details */}
             {paymentMethod === 'qr' && !paymentSuccessful && (
               <div className="qr-section">
                 <h4>Scan UPI QR to Pay ₹{finalAmount.toFixed(2)}</h4>
@@ -209,6 +210,7 @@ function CartComponent() {
                 </button>
               </div>
             )}
+
             {paymentMethod === 'card' && !paymentSuccessful && (
               <div className="card-section">
                 <h4>Enter Card Details</h4>
@@ -221,22 +223,28 @@ function CartComponent() {
                 </button>
               </div>
             )}
-            {paymentSuccessful && (
-              <h2 className="thank-you-message">
-                ✅ Payment Successful! Redirecting to orders page...
-              </h2>
-
-            )}
+          </div>
+          <div>
+            <button onClick={() => toast("Wow so easy!")}>
+              Notify!
+            </button>
           </div>
         </>
+      ) : paymentSuccessful ? (
+        <div>
+          <h2 className="thank-you-message">
+            ✅ Payment Successful! Redirecting to orders page... </h2>
+          <p style={{ textAlign: 'center' }}>➡️ Redirecting to your Orders page in {countdown} seconds...</p>
+
+        </div>
       ) : (
-        <div >
+        <div>
           <h2>Your cart is Empty! 🛒</h2>
-          <p className="thank-you-message">✅ Payment Successful! Redirecting to orders page...</p>
-           <p>➡️ Redirecting to your Orders page in {countdown} seconds...</p>
+          <p style={{ textAlign: 'center' }}>Your cart empty please add some products...</p>
         </div>
       )}
     </div>
+
   );
 }
 

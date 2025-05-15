@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Chocolate.css'; // Make sure this file is styled properly
 import { AddToCart } from './store';
+import { toast, ToastContainer } from 'react-toastify';
 
 function Chocolate() {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ function Chocolate() {
 
   const [selectedRanges, setSelectedRanges] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const productsPerPage = 8;
 
   // Define price range filters
   const priceRanges = [
@@ -29,10 +30,10 @@ function Chocolate() {
   const filteredProducts = selectedRanges.length === 0
     ? chocolateProducts
     : chocolateProducts.filter(product =>
-        activeRanges.some(range =>
-          product.price >= range.min && product.price <= range.max
-        )
-      );
+      activeRanges.some(range =>
+        product.price >= range.min && product.price <= range.max
+      )
+    );
 
   // Pagination logic on filtered products
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -49,9 +50,21 @@ function Chocolate() {
     }
     setCurrentPage(1); // Reset to first page on filter change
   };
+  const chocolateListItems = currentProducts.map((product, index) => (
+    <li key={index} className="chocolate-card">
+      <img src={product.image} alt={product.name} />
+      <h3>{product.name}</h3>
+      <p>₹{product.price}</p>
+      <button onClick={() => {
+        dispatch(AddToCart(product))
+        toast.success('Product added to cart Successfully')
+      }}>Add to Cart</button>
+    </li>
+  ))
 
   return (
     <div className="chocolate-container">
+      <ToastContainer position="top-right" autoClose={3000} />
       <h1 style={{ textAlign: 'center' }}>Chocolate Products</h1>
 
       {/* Price Range Filter */}
@@ -71,14 +84,7 @@ function Chocolate() {
 
       {/* Chocolate Product List */}
       <ol className="chocolate-list">
-        {currentProducts.map((product, index) => (
-          <li key={index} className="chocolate-card">
-            <img src={product.image} alt={product.name} />
-            <h3>{product.name}</h3>
-            <p>₹{product.price}</p>
-            <button onClick={() => dispatch(AddToCart(product))}>Add to Cart</button>
-          </li>
-        ))}
+        {chocolateListItems}
       </ol>
 
       {/* Pagination */}
@@ -99,6 +105,11 @@ function Chocolate() {
 
         <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
           Next
+        </button>
+      </div>
+      <div>
+        <button onClick={() => toast("Wow so easy!")}>
+          Notify!
         </button>
       </div>
     </div>

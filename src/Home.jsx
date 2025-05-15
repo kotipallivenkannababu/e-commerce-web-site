@@ -46,6 +46,8 @@ function Home() {
       </div>
 
       {/* Category Cards */}
+      
+      <section className="category-section">
       <h2 className="categories-heading">Shop by Category</h2>
       <div className="categories-container">
         <div className="category-card">
@@ -73,12 +75,36 @@ function Home() {
           </Link>
         </div>
       </div>
+    </section>
+
+      {/* Marquee Special Offers */}
+      <div className="image-scroll-section">
+        <h2 className="scroll-header">🔥 Trending Offers</h2>
+        <div className="image-scroll-wrapper">
+          <div className="scroll-track">
+            {[...Array(2)].map((_, repeatIndex) => (
+              <>
+                <img src="/vegimages/onion.jpg" alt="Offer 1" className="scroll-image" key={`onion-${repeatIndex}`} />
+                <img src="/nonVegimages/fishfry.jpg" alt="Offer 2" className="scroll-image" key={`fish-${repeatIndex}`} />
+                <img src="/chocolate/ferrero.jpg" alt="Offer 3" className="scroll-image" key={`ferrero-${repeatIndex}`} />
+                <img src="/milk/butter.jpg" alt="Offer 4" className="scroll-image" key={`butter-${repeatIndex}`} />
+                <img src="/nonVegimages/chicken65.jpg" alt="Offer 5" className="scroll-image" key={`chicken-${repeatIndex}`} />
+                <img src="/chocolate/kitkat.jpg" alt="Offer 6" className="scroll-image" key={`kitkat-${repeatIndex}`} />
+                <img src="/milk/icecream.jpg" alt="Offer 7" className="scroll-image" key={`icecream-${repeatIndex}`} />
+                <img src="/milk/badammilk.jpg" alt="Offer 8" className="scroll-image" key={`milk-${repeatIndex}`} />
+                <img src="/vegimages/potato.jpg" alt="Offer 9" className="scroll-image" key={`potato-${repeatIndex}`} />
+                <img src="/nonVegimages/chickentikka.jpg" alt="Offer 10" className="scroll-image" key={`eggs-${repeatIndex}`} />
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* Product Previews */}
       {categories.map((category) => (
         <div key={category.key} className="category-section">
           <div className="category-header">
-            <h2 className="category-title" style={{color:"red"}}>{category.name}</h2>
+            <h2 className="category-title" style={{ color: "red" }}>{category.name}</h2>
           </div>
           <div className="product-grid">
             {products[category.key]?.slice(0, 10).map((item, index) => (
@@ -89,23 +115,9 @@ function Home() {
               </div>
             ))}
           </div>
-          
+
         </div>
       ))}
-
-      {/* Marquee Special Offers */}
-      <h2 className="scroll-heading">Special Offers</h2>
-      <div className="scroll-image-container">
-        <div className="scroll-image-marquee">
-          <img src="/vegimages/onion.jpg" alt="Offer 1" className="scroll-image" />
-          <img src="/nonVegimages/fishfry.jpg" alt="Offer 2" className="scroll-image" />
-          <img src="/chocolate/ferrero.jpg" alt="Offer 3" className="scroll-image" />
-          <img src="/milk/butter.jpg" alt="Offer 4" className="scroll-image" />
-          <img src="/nonVegimages/chicken65.jpg" alt="Offer 5" className="scroll-image" />
-          <img src="/chocolate/kitkat.jpg" alt="Offer 6" className="scroll-image" />
-          <img src="/milk/icecream.jpg" alt="Offer 7" className="scroll-image" />
-        </div>
-      </div>
 
       {/* Footer */}
       <footer className="footer">
