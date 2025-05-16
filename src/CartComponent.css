@@ -244,12 +244,12 @@
 
 .card-section input {
   width: 100%;
-  padding: 12px 15px;
+  padding: 10px;
   margin: 8px 0;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 16px;
-  transition: border-color 0.3s ease;
+  box-sizing: border-box;
 }
 
 .card-section input:focus {
@@ -259,16 +259,15 @@
 }
 
 .confirm-payment-btn {
-  background-color: #4caf50;
+  margin-top: 15px;
+  background-color: #28a745;
   color: white;
-  padding: 12px 24px;
-  font-size: 1rem;
   font-weight: bold;
+  padding: 12px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 15px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .confirm-payment-btn:hover {
@@ -279,4 +278,17 @@
 .confirm-payment-btn:active {
   background-color: #388e3c;
   transform: scale(1);
+}
+.email-section {
+  margin-top: 25px;
+}
+
+.email-section input {
+  padding: 10px;
+  width: 60%;
+  max-width: 300px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
 }
