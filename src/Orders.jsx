@@ -25,7 +25,7 @@ function Orders() {
           <i className="fas fa-calendar-alt"></i> DateTime: {order.purchaseDateTime}
         </h3>
         <h3 className="order-amount">
-          <i className="fas fa-dollar-sign"></i> Final Amount: ₹{order.finalAmount.toFixed(2)}
+          <i className="fas fa-dollar-sign"></i> Final Amount: ₹{order.finalAmount.toFixed(1)}
         </h3>
 
         <div className="order-actions">
