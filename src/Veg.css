@@ -11,19 +11,20 @@
 /* VEG CARD STYLES */
 .veg-card {
   width: 240px;
-  border: 1px solid #dcdcdc;
+  border: 2px solid #ffeb3b; /* bright yellow border */
   border-radius: 16px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 16px rgba(255, 235, 59, 0.3); /* subtle yellow shadow */
   padding: 16px;
-  background-color: #ffffff;
+  background-color: #fff;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  color: #000; /* black text */
 }
 
 .veg-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
-  background-color: #f3fff8;
+  box-shadow: 0 14px 28px rgba(255, 235, 59, 0.6); /* stronger yellow shadow */
+  background-color: #fff9c4; /* light yellow hover */
 }
 
 .veg-card img {
@@ -36,32 +37,32 @@
 
 .veg-card h3 {
   font-size: 20px;
-  color: #2c3e50;
+  color: #000; /* black */
   margin: 10px 0 6px;
 }
 
 .veg-card p {
   font-size: 16px;
-  color: #555;
+  color: #222; /* dark black */
   margin-bottom: 10px;
 }
 
 .veg-card button {
   padding: 10px 16px;
-  background-color: #2ecc71;
-  color: white;
+  background-color: #ffeb3b; /* yellow button */
+  color: #000; /* black text */
   border: none;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .veg-card button:hover {
-  background-color: #27ae60;
+  background-color: #fdd835; /* darker yellow */
   transform: scale(1.05);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 14px rgba(255, 235, 59, 0.5);
 }
 
 /* PRICE FILTER STYLES */
@@ -69,6 +70,7 @@
   margin: 20px 0;
   text-align: center;
   font-size: 16px;
+  color: #000; /* black */
 }
 
 .price-filter label {
@@ -77,10 +79,11 @@
   align-items: center;
   cursor: pointer;
   gap: 6px;
+  color: #000; /* black */
 }
 
 .price-filter input[type="checkbox"] {
-  accent-color: #2ecc71;
+  accent-color: #ffeb3b; /* yellow checkboxes */
   transform: scale(1.1);
 }
 
@@ -90,14 +93,15 @@
   font-size: 14px;
   border: none;
   border-radius: 6px;
-  background-color: #e74c3c;
-  color: white;
+  background-color: #ffeb3b; /* yellow */
+  color: #000; /* black text */
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-weight: bold;
 }
 
 .price-filter button:hover {
-  background-color: #c0392b;
+  background-color: #fdd835; /* darker yellow */
 }
 
 /* PAGINATION STYLES */
@@ -112,22 +116,25 @@
 .pagination button {
   padding: 8px 14px;
   font-size: 14px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  border: 1px solid #007bff; /* blue border */
+  background-color: #fff; /* white background */
+  color: #007bff; /* blue text */
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .pagination button:hover:not(.active-page):not(:disabled) {
-  background-color: #f0f0f0;
+  background-color: #e0f0ff; /* light blue background */
+  border-color: #0056b3;
+  color: #0056b3;
 }
 
 .pagination .active-page {
-  background-color: #2ecc71;
+  background-color: #007bff; /* blue background */
   color: white;
-  border-color: #2ecc71;
   font-weight: bold;
+  border-color: #007bff;
 }
 
 .pagination button:disabled {

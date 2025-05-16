@@ -157,9 +157,9 @@ function CartComponent() {
           <div className="summary-section">
             <h3>💰 Total Price: ₹{totalPrice.toFixed(2)}</h3>
             <div className="discount-buttons">
-              <button onClick={() => { setDiscountPercentage(10); toast.success('🏷️ 10% Discount Applied!'); }}>🏷️ 10%</button>
-              <button onClick={() => { setDiscountPercentage(20); toast.success('🏷️ 20% Discount Applied!'); }}>🏷️ 20%</button>
-              <button onClick={() => { setDiscountPercentage(30); toast.success('🏷️ 30% Discount Applied!'); }}>🏷️ 30%</button>
+              <button onClick={() => { setDiscountPercentage(10); toast.success('🏷️ 10% Discount Applied!'); }}>🏷️Apply 10% Discount</button>
+              <button onClick={() => { setDiscountPercentage(20); toast.success('🏷️ 20% Discount Applied!'); }}>🏷️Apply 20% Discount</button>
+              <button onClick={() => { setDiscountPercentage(30); toast.success('🏷️ 30% Discount Applied!'); }}>🏷️Apply 30% Discount</button>
             </div>
 
             <h4>🎉 Discount Amount: -₹{discountAmount.toFixed(2)}</h4>

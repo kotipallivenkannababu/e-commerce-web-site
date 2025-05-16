@@ -34,9 +34,9 @@ function ContactUs() {
     <div className="contact-container">
       <div className="contact-left">
         <h2 className="title-green">Get in Touch</h2>
-        <p><FaEnvelope className="icon-red" /> <strong>Email:</strong> kotipallivenkannababu8@gmail.com</p>
+        <p><FaEnvelope className="icon-red" /> <strong>Email:</strong> kotipallivenkannababu1009@gmail.com</p>
         <p><FaPhone className="icon-green" /> <strong>Phone:</strong> 9908842947</p>
-        <p><FaMapMarkerAlt className="icon-red" /> <strong>Address:</strong> Kalluru, Khammam</p>
+        <p><FaMapMarkerAlt className="icon-red" /> <strong>Address:</strong> Kalluru, Khammam, Telangana-507209</p>
 
         <h3 className="follow-title">Follow Us</h3>
         <div className="social-icons">

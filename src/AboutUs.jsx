@@ -25,9 +25,9 @@ function AboutUs() {
   return (
     <div className="aboutus-wrapper">
       <section className="aboutus-hero">
-        <h1>About <span className="highlight">myStore</span></h1>
+        <h1>About <span className="highlight">NaniStore</span></h1>
         <p>
-          At myStore, we are redefining the way you shop for groceries by offering freshness,
+          At NaniStore, we are redefining the way you shop for groceries by offering freshness,
           quality, and convenience all in one place. With a wide range of categories from
           farm-fresh produce to premium chocolates, we ensure only the best reaches your table.
         </p>
@@ -66,7 +66,7 @@ function AboutUs() {
           while supporting local communities and promoting healthy lifestyles.
         </p>
 
-        <h2>Why Choose myStore?</h2>
+        <h2>Why Choose NaniStore?</h2>
         <ul>
           <li>✅ Handpicked, fresh, and quality-assured products</li>
           <li>✅ Transparent pricing with no hidden costs</li>
@@ -86,7 +86,7 @@ function AboutUs() {
       </section>
 
       <footer className="aboutus-footer">
-        <p>© 2025 myStore. Inspired by excellence. Built by vision.</p>
+        <p>© 2025 NaniStore. Inspired by excellence. Built by vision.</p>
       </footer>
     </div>
   );

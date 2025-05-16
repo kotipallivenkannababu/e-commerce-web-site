@@ -37,7 +37,7 @@ function App() {
 
         {/* Logo */}
         <div className="logo-container">
-          <span className="logo-name">🛍️MyStore</span>
+          <span className="logo-name">🛍️NaniStore</span>
         </div>
 
         {/* Navigation links */}

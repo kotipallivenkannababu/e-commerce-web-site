@@ -4,6 +4,7 @@
   margin: 0 auto;
   padding: 24px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fffde7; /* soft yellow background */
 }
 
 /* Filter Section */
@@ -20,13 +21,18 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  color: #111; /* black text */
+}
+
+.price-filter input[type="checkbox"] {
+  accent-color: #fbc02d; /* yellow checkboxes */
 }
 
 .price-filter button {
   padding: 6px 12px;
   border: none;
-  background-color: #f44336;
-  color: white;
+  background-color: #ffeb3b; /* yellow */
+  color: #000; /* black text */
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
@@ -34,7 +40,7 @@
 }
 
 .price-filter button:hover {
-  background-color: #d32f2f;
+  background-color: #fdd835; /* darker yellow */
 }
 
 /* Product Grid */
@@ -50,19 +56,19 @@
 /* Product Card */
 .chocolate-card {
   width: 240px;
-  border: 1px solid #e0e0e0;
+  border: 2px solid #ffeb3b; /* bright yellow border */
   border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 16px rgba(255, 235, 59, 0.4); /* yellow shadow with some transparency */
   padding: 16px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   background-color: #ffffff;
 }
 
 .chocolate-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-  background-color: #f9f9f9;
+  background-color: #fff9c4; /* light yellow on hover */
+  box-shadow: 0 12px 24px rgba(255, 235, 59, 0.6); /* stronger yellow shadow on hover */
 }
 
 .chocolate-card img {
@@ -76,21 +82,21 @@
 .chocolate-card h3 {
   margin: 8px 0;
   font-size: 18px;
-  color: #2c3e50;
+  color: #111; /* black */
 }
 
 .chocolate-card p {
   font-size: 16px;
-  color: #555;
+  color: #333; /* dark grey */
   margin-bottom: 12px;
 }
 
 /* Add to Cart Button */
 .chocolate-card button {
   padding: 10px 16px;
-  background-color: #3498db;
-  border: none;
-  color: white;
+  background-color: #ffeb3b; /* yellow */
+  border: 1px solid #222;
+  color: #000; /* black */
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
@@ -99,7 +105,7 @@
 }
 
 .chocolate-card button:hover {
-  background-color: #2980b9;
+  background-color: #fdd835; /* darker yellow */
   transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
@@ -117,22 +123,24 @@
   padding: 8px 14px;
   font-size: 14px;
   cursor: pointer;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  border: 1px solid #007bff; /* blue border */
+  background-color: #fff; /* white background */
+  color: #007bff; /* blue text */
   border-radius: 6px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .pagination button:hover:not(.active-page):not(:disabled) {
-  background-color: #f0f0f0;
-  border-color: #bbb;
+  background-color: #e0f0ff; /* light blue bg */
+  border-color: #0056b3;
+  color: #0056b3;
 }
 
 .pagination .active-page {
-  background-color: #4CAF50;
+  background-color: #007bff; /* blue bg */
   color: white;
   font-weight: bold;
-  border-color: #4CAF50;
+  border-color: #007bff;
 }
 
 .pagination button:disabled {
