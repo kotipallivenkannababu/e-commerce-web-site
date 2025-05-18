@@ -6,20 +6,22 @@ import { useNavigate } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import emailjs from '@emailjs/browser';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CartComponent() {
   const cartObjects = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [couponCode, setCouponCode] = useState('');
-  const couponCodeRef = useRef();
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [couponDiscountPercentage, setCouponDiscountPercentage] = useState(0);
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
   const [countdown, setCountdown] = useState(5);
-  const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState('qr');
   const [customerEmail, setCustomerEmail] = useState('');
+
+  const couponCodeRef = useRef();
 
   const handleCouponApply = () => {
     const codeValue = couponCodeRef.current.value.trim().toUpperCase();
@@ -42,22 +44,87 @@ function CartComponent() {
         toast.error('❌ Invalid Coupon Code!');
         setCouponDiscountPercentage(0);
     }
+
     couponCodeRef.current.value = '';
   };
 
   const calculateAmounts = () => {
-    let totalPrice = cartObjects.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    let discountAmount = (discountPercentage / 100) * totalPrice;
-    let afterDiscount = totalPrice - discountAmount;
-    let couponDiscount = (couponDiscountPercentage / 100) * afterDiscount;
-    let afterCoupon = afterDiscount - couponDiscount;
-    let shipping = 30;
-    let tax = (afterCoupon * 5) / 100;
-    let finalAmount = afterCoupon + tax + shipping;
+    const totalPrice = cartObjects.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const discountAmount = (discountPercentage / 100) * totalPrice;
+    const afterDiscount = totalPrice - discountAmount;
+    const couponDiscount = (couponDiscountPercentage / 100) * afterDiscount;
+    const afterCoupon = afterDiscount - couponDiscount;
+    const shipping = 30;
+    const tax = (afterCoupon * 5) / 100;
+    const finalAmount = afterCoupon + tax + shipping;
     return { totalPrice, discountAmount, couponDiscount, tax, shipping, finalAmount };
   };
 
   const { totalPrice, discountAmount, couponDiscount, tax, shipping, finalAmount } = calculateAmounts();
+
+  const handlePaymentSuccess = () => {
+    if (!customerEmail) {
+      toast.error('❌ Please enter your email address.');
+      return;
+    }
+
+    const purchaseDateTime = new Date().toLocaleString();
+    const orderId = 'ORD-' + new Date().getTime();
+
+    const orderDetailsObject = {
+      orderId,
+      purchaseDateTime,
+      items: [...cartObjects],
+      finalAmount,
+    };
+
+    const templateParams = {
+      order_id: orderId,
+      orders: cartObjects.map(item => ({
+        name: item.name,
+        price: (item.price * item.quantity).toFixed(2),
+        units: item.quantity,
+        imageUrl: item.image
+      })),
+      cost: {
+        shipping: shipping.toFixed(2),
+        tax: tax.toFixed(2),
+        total: finalAmount.toFixed(2)
+      },
+      email: customerEmail
+    };
+
+    dispatch(ClearCart());
+    dispatch(OrderDetails(orderDetailsObject));
+
+    emailjs.send(
+      'service_pkicvpe',
+      'template_o5y3pjj',
+      templateParams,
+      'gimfEfjaE6hdhlA1x'
+    )
+      .then((response) => {
+        console.log('✅ Email successfully sent!', response.status, response.text);
+      })
+      .catch((error) => {
+        console.error('❌ Failed to send email:', error);
+      });
+
+    setPaymentSuccessful(true);
+
+    setTimeout(() => {
+      navigate("/orders");
+    }, 5000);
+  };
+
+  useEffect(() => {
+    if (cartObjects.length === 0 && paymentSuccessful && countdown > 0) {
+      const interval = setInterval(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [cartObjects.length, paymentSuccessful, countdown]);
 
   const cartListItems = cartObjects.map((item) => (
     <li key={item.id || item.name} className="cart-item">
@@ -77,63 +144,6 @@ function CartComponent() {
       </div>
     </li>
   ));
-
-  const handlePaymentSuccess = () => {
-    if (!customerEmail) {
-      toast.error('❌ Please enter your email address.');
-      return;
-    }
-
-    const purchaseDateTime = new Date().toLocaleString();
-    let orderId = 'ORD-' + new Date().getTime();
-
-    let itemsText = cartObjects.map(item =>
-      `${item.name} - ₹${(item.price * item.quantity).toFixed(2)} x ${item.quantity}`
-    ).join('\n');
-
-    const templateParams = {
-      order_id: orderId,
-      orders: itemsText,
-      cost: `Shipping: ₹${shipping.toFixed(2)}, Tax: ₹${tax.toFixed(2)}, Total: ₹${finalAmount.toFixed(2)}`,
-      email: customerEmail
-    };
-
-    dispatch(ClearCart());
-    dispatch(OrderDetails({
-      orderId,
-      purchaseDateTime,
-      items: [...cartObjects],
-      finalAmount,
-    }));
-
-    emailjs.send(
-      'service_pkicvpe',
-      'template_o5y3pjj',
-      templateParams,
-      'gimfEfjaE6hdhlA1x'
-    )
-    .then((response) => {
-      console.log('✅ Email successfully sent!', response.status, response.text);
-    })
-    .catch((error) => {
-      console.error('❌ Failed to send email:', error);
-    });
-
-    setPaymentSuccessful(true);
-
-    setTimeout(() => {
-      navigate("/orders");
-    }, 5000);
-  };
-
-  useEffect(() => {
-    if (cartObjects.length === 0 && paymentSuccessful && countdown > 0) {
-      const interval = setInterval(() => {
-        setCountdown(prev => prev - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [cartObjects.length, paymentSuccessful, countdown]);
 
   return (
     <div className="cart-container">
